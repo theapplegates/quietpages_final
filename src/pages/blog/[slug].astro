@@ -39,7 +39,9 @@ const toc = headings
 const related = await relatedPosts(post);
 const { prev, next } = await adjacentPosts(post);
 const canonical = `/blog/${post.slug}`;
-const shareUrl = SITE.url ? new URL(canonical, SITE.url).toString() : canonical;
+const canonicalUrl = new URL(canonical, SITE.url).toString();
+const thumbnailUrl = post.thumbnail ? new URL(imageSrc(post.thumbnail), SITE.url).toString() : undefined;
+const shareUrl = canonicalUrl;
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "BlogPosting",
@@ -47,9 +49,9 @@ const jsonLd = {
   description: post.excerpt,
   datePublished: post.date,
   dateModified: post.updated || post.date,
-  image: imageSrc(post.thumbnail),
+  image: thumbnailUrl,
   author: { "@type": "Person", name: author?.name },
-  mainEntityOfPage: canonical,
+  mainEntityOfPage: canonicalUrl,
 };
 ---
 

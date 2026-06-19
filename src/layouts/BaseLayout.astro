@@ -14,7 +14,19 @@ const {
   flushFooter = false,
 } = Astro.props;
 
-const ogImageUrl = imageSrc(ogImage);
+const siteUrl = Astro.site?.toString() || SITE.url;
+const absoluteUrl = (value) => {
+  const src = imageSrc(value) || value;
+  if (!src) return undefined;
+
+  try {
+    return new URL(src, siteUrl).toString();
+  } catch {
+    return src;
+  }
+};
+const canonicalUrl = absoluteUrl(canonical || Astro.url.pathname);
+const ogImageUrl = absoluteUrl(ogImage);
 ---
 
 <!doctype html>
@@ -29,13 +41,13 @@ const ogImageUrl = imageSrc(ogImage);
     <meta property="og:description" content={description} />
     <meta property="og:type" content={ogType} />
     <meta property="og:site_name" content={SITE.name} />
-    {canonical && <meta property="og:url" content={canonical} />}
+    {canonicalUrl && <meta property="og:url" content={canonicalUrl} />}
     {ogImageUrl && <meta property="og:image" content={ogImageUrl} />}
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     {ogImageUrl && <meta name="twitter:image" content={ogImageUrl} />}
-    {canonical && <link rel="canonical" href={canonical} />}
+    {canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
     <link
       rel="preload"
       href="/fonts/inter-latin.woff2"
@@ -69,9 +81,10 @@ const ogImageUrl = imageSrc(ogImage);
     </script>
   </head>
   <body>
+    <a href="#main-content" class="skip-link">Skip to content</a>
     <div class="flex min-h-dvh flex-col">
       <Header />
-      <main class="flex-1">
+      <main id="main-content" class="flex-1">
         <slot />
       </main>
       <Footer flush={flushFooter} />

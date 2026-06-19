@@ -1,5 +1,11 @@
 import { getCollection } from "astro:content";
 
+const siteUrl = (
+  import.meta.env.SITE_URL ||
+  import.meta.env.PUBLIC_SITE_URL ||
+  "https://quietpages-eta.vercel.app"
+).replace(/\/$/, "");
+
 export const authors = [
   {
     slug: "elena-march",
@@ -104,5 +110,5 @@ export const SITE = {
   name: "Quiet Pages",
   description:
     "An independent magazine on writing, design, and the slow web. Published occasionally, read closely.",
-  url: "",
+  url: siteUrl,
 };

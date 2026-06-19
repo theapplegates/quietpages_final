@@ -1,6 +1,8 @@
 {
   "name": "quiet-pages",
+  "description": "A quiet Astro magazine theme for essays, field notes, and long-form writing.",
   "private": true,
+  "license": "MIT",
   "type": "module",
   "scripts": {
     "dev": "astro dev",
