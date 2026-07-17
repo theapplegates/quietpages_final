@@ -1,0 +1,55 @@
+---
+// src/components/ImageWithCredit.astro
+interface Props {
+  src: string;
+  alt: string;
+  caption?: string; // The custom prefix you wanted
+  author: string;
+  authorUrl: string;
+  source: string;
+  sourceUrl: string;
+}
+
+const { src, alt, caption, author, authorUrl, source, sourceUrl } = Astro.props;
+---
+
+<figure class="image-credit-container">
+  <img src={src} alt={alt} class="credit-image" />
+  <figcaption class="credit-text">
+	{caption ? `${caption} ` : ''}
+	Photo by <a href={authorUrl} target="_blank" rel="noopener noreferrer">{author}</a> 
+	on <a href={sourceUrl} target="_blank" rel="noopener noreferrer">{source}</a>.
+  </figcaption>
+</figure>
+
+<style>
+  .image-credit-container {
+	margin: 2rem 0; /* Space above and below the image */
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+  }
+
+  .credit-image {
+	width: 100%;
+	height: auto;
+	display: block;
+  }
+
+  .credit-text {
+	margin-top: 8px;
+	font-size: 0.85rem;
+	color: #666;
+	line-height: 1.4;
+  }
+
+  .credit-text a {
+	color: #333;
+	text-decoration: none;
+	font-weight: 500;
+  }
+
+  .credit-text a:hover {
+	text-decoration: underline;
+  }
+</style>
