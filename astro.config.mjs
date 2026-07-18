@@ -1,27 +1,29 @@
 import { defineConfig } from "astro/config";
 import { astrotypeFonts } from "./src/astrotypes/fonts.mjs";
 import mdx from "@astrojs/mdx";
+import react from "@astrojs/react";
 import tailwindcss from "@tailwindcss/vite";
 
 const site =
-  process.env.SITE_URL || process.env.PUBLIC_SITE_URL || "https://quiet.paulapplegate.com";
+  process.env.SITE_URL ||
+  process.env.PUBLIC_SITE_URL ||
+  "https://quiet.paulapplegate.com";
 
 export default defineConfig({
   fonts: astrotypeFonts,
   site,
-  integrations: [mdx()],
-vite: {
+  integrations: [mdx(), react()],
+  vite: {
     plugins: [tailwindcss()],
     ssr: {
-      // Prevents Vite from parsing internal relative paths in the package during SSR/Build
-      noExternal: ['astro-cloudinary', '@radix-ui/*']
+      noExternal: ["astro-cloudinary", "@radix-ui/*"]
     },
     optimizeDeps: {
-      // Prevents Vite from pre-bundling the package during static entrypoint building
-      exclude: ['astro-cloudinary']
+      exclude: ["astro-cloudinary"]
     },
     build: {
       cssMinify: true,
-      minify: 'esbuild'
+      minify: "esbuild"
     }
-  },
+  }
+});
